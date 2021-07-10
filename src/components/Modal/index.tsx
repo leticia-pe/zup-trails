@@ -48,9 +48,9 @@ const Modal: React.FC<modalProps> = (props) => {
               className="modal__close-button modal--hide-desktop"
               aria-label="botão de fechar"
               onClick={(e) => {
-              e.stopPropagation();
-              closeDialog();
-            }}>x</button>
+                e.stopPropagation();
+                closeDialog();
+              }}>x</button>
           </header>
           {children}
         </dialog>

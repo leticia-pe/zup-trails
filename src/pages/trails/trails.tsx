@@ -1,6 +1,6 @@
 import { PureComponent } from 'react';
 import { Grade, TrailResume, TrailGrade } from '../../model/trails';
-import {DynamicObject} from '../../model/general';
+import { DynamicObject } from '../../model/general';
 import TrailsList from '../../components/TrailsList';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
@@ -66,65 +66,65 @@ class TrailsPage extends PureComponent<TrailsState> {
   };
 
   closeDialog() {
-    this.setState({modalOpened: false});
+    this.setState({ modalOpened: false });
   };
 
   loadTrails() {
     axios.get(this.state.apiEndpoint)
-    .then((response) => {
-      if (response.status === 200) {
-        this.setState({trails: response.data});
-      }
-    })
-    .catch((error) => {
-     console.log('error');
-    })
-  };
-
-  requestTrail(id:string) {
-    let grades = this.state.trailsGrade as DynamicObject<TrailGrade>;
-    if (!grades[id]) {
-      axios.get(`${this.state.apiEndpoint}${id}/trails-grade/${id}/courses`)
       .then((response) => {
         if (response.status === 200) {
-          grades[id] = response.data;
-          this.setState({trailsGrade: grades}, () => this.setState({selectedGrade: grades[id]}));
+          this.setState({ trails: response.data });
         }
       })
       .catch((error) => {
         console.log('error');
-      });
+      })
+  };
+
+  requestTrail(id: string) {
+    let grades = this.state.trailsGrade as DynamicObject<TrailGrade>;
+    if (!grades[id]) {
+      axios.get(`${this.state.apiEndpoint}${id}/trails-grade/${id}/courses`)
+        .then((response) => {
+          if (response.status === 200) {
+            grades[id] = response.data;
+            this.setState({ trailsGrade: grades }, () => this.setState({ selectedGrade: grades[id] }));
+          }
+        })
+        .catch((error) => {
+          console.log('error');
+        });
     } else {
-      this.setState({selectedGrade: grades[id]});
+      this.setState({ selectedGrade: grades[id] });
     }
     this.setTrailDetails(grades, id);
   };
-  
+
   setTrailDetails(grades: DynamicObject<TrailGrade>, id: string) {
     const userSubscriptions = this.state.userSubscriptions as number[];
     let selectedTrail = this.state.trails.find((trail) => trail.id === id);
     const disableSubscribe = userSubscriptions.includes(parseInt(selectedTrail!.id)) ?? false;
-    this.setState({selectedTrail, selectedGrade: grades[id],modalOpened: true, disableSubscribe});
+    this.setState({ selectedTrail, selectedGrade: grades[id], modalOpened: true, disableSubscribe });
     document.getElementById('subscribeButton')?.focus();
   };
 
   handleSubscribeClick() {
-    this.setState({disableSubscribe: true});
+    this.setState({ disableSubscribe: true });
     const subscriptions = this.state.userSubscriptions as number[];
-    const {selectedTrail} = this.state;
+    const { selectedTrail } = this.state;
     subscriptions.push(parseInt(selectedTrail.id));
     this.closeDialog();
   }
   render() {
-    const {trails, modalOpened, selectedTrail, selectedGrade, userSubscriptions, disableSubscribe} = this.state;
-    const {description, name} = selectedTrail;
+    const { trails, modalOpened, selectedTrail, selectedGrade, userSubscriptions, disableSubscribe } = this.state;
+    const { description, name } = selectedTrail;
 
     return (
       <>
         <div className="trails">
           <header className="trails__header">
             Inscrições: {userSubscriptions.length}
-            <img className="trails__user-icon" src={userIcon} alt="Ícone de usuário" />  
+            <img className="trails__user-icon" src={userIcon} alt="Ícone de usuário" />
           </header>
           <section className="trails__section">
             <div className="trails__banner">
@@ -137,20 +137,20 @@ class TrailsPage extends PureComponent<TrailsState> {
               </figure>
             </div>
             <nav className="trails__nav">
-              {trails.length ? <TrailsList trails={trails}/> : null}
+              {trails.length ? <TrailsList trails={trails} /> : null}
             </nav>
           </section>
         </div>
         {modalOpened ? <Modal opened={modalOpened}>
           <h1 id="dialogTitle" className="modal__title">{name}</h1>
-          <p  className="modal__description">{description}</p>
+          <p className="modal__description">{description}</p>
           <div className="modal__button-container">
-            <Button id="subscribeButton" className="modal__button" label="inscrever-se" disabled={disableSubscribe} onClick={() => this.handleSubscribeClick()}/>
+            <Button id="subscribeButton" className="modal__button" label="inscrever-se" disabled={disableSubscribe} onClick={() => this.handleSubscribeClick()} />
           </div>
           <div className="modal__grade-container">
             {selectedGrade?.map((course, key) => {
               return (
-                <GradeCard key={key} name={course.name} duration={course.hours}/>
+                <GradeCard key={key} name={course.name} duration={course.hours} />
               )
             })}
           </div>

@@ -5,7 +5,7 @@ import TrailsPage from './trails/trails';
 function Routes() {
     return (
         <BrowserRouter>
-        <Route path="/" exact component={TrailsPage}/>
+            <Route path="/" exact component={TrailsPage} />
         </BrowserRouter>
     );
 }

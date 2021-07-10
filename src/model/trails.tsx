@@ -1,5 +1,3 @@
-import { DynamicObject} from './general';
-
 export interface Grade {
   hours: number
   name: string

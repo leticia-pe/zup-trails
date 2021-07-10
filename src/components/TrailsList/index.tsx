@@ -13,17 +13,17 @@ const trailsList: React.FC<trailsListProps> = ({
 
   return (
     <>
-    {trails && Boolean(trails.length) && (
-      <div className="trails-list__container">
-      {trails?.map((trail, key) => {
-        return (
-          <Card
-          key={key}
-          trail={trail} />
-        );
-      })}
-    </div>
-    )}
+      {trails && Boolean(trails.length) && (
+        <div className="trails-list__container">
+          {trails?.map((trail, key) => {
+            return (
+              <Card
+                key={key}
+                trail={trail} />
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }
