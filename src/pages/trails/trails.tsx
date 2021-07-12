@@ -105,7 +105,7 @@ class TrailsPage extends PureComponent<TrailsState> {
 
   setTrailDetails(grades: DynamicObject<TrailGrade>, id: string) {
     const userSubscriptions = this.state.userSubscriptions as number[];
-    let selectedTrail = this.state.trails.find((trail) => trail.id === id);
+    const selectedTrail = this.state.trails.find((trail) => trail.id === id);
     const disableSubscribe = userSubscriptions.includes(parseInt(selectedTrail!.id)) ?? false;
     this.setState({ selectedTrail, selectedGrade: grades[id], modalOpened: true, disableSubscribe }, () => {
       document.getElementById('subscribeButton')?.focus();
