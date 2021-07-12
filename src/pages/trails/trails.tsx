@@ -107,12 +107,12 @@ class TrailsPage extends PureComponent<TrailsState> {
     const userSubscriptions = this.state.userSubscriptions as number[];
     let selectedTrail = this.state.trails.find((trail) => trail.id === id);
     const disableSubscribe = userSubscriptions.includes(parseInt(selectedTrail!.id)) ?? false;
-    this.setState({ selectedTrail, selectedGrade: grades[id], modalOpened: true, disableSubscribe }, () =>{
+    this.setState({ selectedTrail, selectedGrade: grades[id], modalOpened: true, disableSubscribe }, () => {
       document.getElementById('subscribeButton')?.focus();
     });
     const previousElement = document.activeElement;
     (previousElement as HTMLElement)?.blur();
-    this.setState({previousElementFocused: previousElement});
+    this.setState({ previousElementFocused: previousElement });
   };
 
   handleSubscribeClick() {
