@@ -20,6 +20,7 @@ interface TrailsState {
   selectedGrade: Grade[] | [];
   userSubscriptions: number[] | [];
   disableSubscribe: boolean;
+  previousElementFocused: HTMLElement | null;
 }
 
 class TrailsPage extends PureComponent<TrailsState> {
@@ -37,7 +38,8 @@ class TrailsPage extends PureComponent<TrailsState> {
     },
     selectedGrade: [],
     userSubscriptions: [],
-    disableSubscribe: false
+    disableSubscribe: false,
+    previousElementFocused: null,
   };
 
   componentDidMount() {
@@ -67,6 +69,7 @@ class TrailsPage extends PureComponent<TrailsState> {
 
   closeDialog() {
     this.setState({ modalOpened: false });
+    (this.state.previousElementFocused as HTMLElement)?.focus();
   };
 
   loadTrails() {
@@ -104,8 +107,12 @@ class TrailsPage extends PureComponent<TrailsState> {
     const userSubscriptions = this.state.userSubscriptions as number[];
     let selectedTrail = this.state.trails.find((trail) => trail.id === id);
     const disableSubscribe = userSubscriptions.includes(parseInt(selectedTrail!.id)) ?? false;
-    this.setState({ selectedTrail, selectedGrade: grades[id], modalOpened: true, disableSubscribe });
-    document.getElementById('subscribeButton')?.focus();
+    this.setState({ selectedTrail, selectedGrade: grades[id], modalOpened: true, disableSubscribe }, () =>{
+      document.getElementById('subscribeButton')?.focus();
+    });
+    const previousElement = document.activeElement;
+    (previousElement as HTMLElement)?.blur();
+    this.setState({previousElementFocused: previousElement});
   };
 
   handleSubscribeClick() {
@@ -133,10 +140,10 @@ class TrailsPage extends PureComponent<TrailsState> {
                 <div className="trails__page-title"> trails </div>
               </div>
               <figure>
-                <img className="trails__banner-image" src={trailsImage} alt="imagem de pessoas trabalhando com um notebook" />
+                <img className="trails__banner-image" src={trailsImage} alt="ilustação de pessoas trabalhando com um notebook" />
               </figure>
             </div>
-            <nav className="trails__nav">
+            <nav aria-label="listagem das trilhas" className="trails__nav">
               {trails.length ? <TrailsList trails={trails} /> : null}
             </nav>
           </section>
@@ -147,13 +154,13 @@ class TrailsPage extends PureComponent<TrailsState> {
           <div className="modal__button-container">
             <Button id="subscribeButton" className="modal__button" label="inscrever-se" disabled={disableSubscribe} onClick={() => this.handleSubscribeClick()} />
           </div>
-          <div className="modal__grade-container">
+          <ul id="dialogDescription" aria-label="Listagem da grade cursos inclusos nessa trilha e suas durações." className="modal__grade-container">
             {selectedGrade?.map((course, key) => {
               return (
                 <GradeCard key={key} name={course.name} duration={course.hours} />
               )
             })}
-          </div>
+          </ul>
         </Modal> : null}
       </>
     )

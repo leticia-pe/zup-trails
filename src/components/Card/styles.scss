@@ -5,10 +5,10 @@
 .card {
   &__item {
     margin-top: 12px;
-    margin-left: 5px;
     border-radius: 8px;
     background-color: #ffffff;
     width: 100%;
+    list-style-type: none;
   }
 
   &__header {
@@ -65,8 +65,12 @@
 
 @media screen and (min-width: 1000px) {
   .card {
+    &__item:first-of-type {
+      margin: 0;
+    }
     &__item {
       margin-top: 0;
+      margin-left: 5px;
       max-width: 375px;
     }
     &__title {

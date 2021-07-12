@@ -14,7 +14,7 @@ const trailsList: React.FC<trailsListProps> = ({
   return (
     <>
       {trails && Boolean(trails.length) && (
-        <div className="trails-list__container">
+        <ul className="trails-list__container">
           {trails?.map((trail, key) => {
             return (
               <Card
@@ -22,7 +22,7 @@ const trailsList: React.FC<trailsListProps> = ({
                 trail={trail} />
             );
           })}
-        </div>
+        </ul>
       )}
     </>
   );

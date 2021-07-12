@@ -40,6 +40,7 @@ const Modal: React.FC<modalProps> = (props) => {
           ref={dialogRef}
           aria-modal="true"
           aria-labelledby="dialogTitle"
+          aria-describedby="dialogDescription"
           open={opened}
           className="modal"
           tabIndex={-1}>

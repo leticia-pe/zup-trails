@@ -11,10 +11,10 @@ const GradeCard: React.FC<gradeCardProps> = (props) => {
 
   return (
     <>
-    <div className="grade-card__container">
-    <div>{name}</div>
-    <div>{duration} horas</div>
-    </div>
+      <li className="grade-card__container">
+        <span aria-label="Nome do curso">{name}</span>
+        <span aria-label="Duração">{duration} horas</span>
+      </li>
     </>
   );
 }
